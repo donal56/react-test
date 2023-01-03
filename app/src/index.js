@@ -1,13 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./app/layout/App.jsx";
+import reportWebVitals from "./reportWebVitals";
 
-if(module.hot) {
-  module.hot.accept("./App", function() {
-    setTimeout(render);
-  });
+import "./app/layout/styles.css";
+import "semantic-ui-css/semantic.min.css";
+
+if (module.hot) {
+    module.hot.accept("./app/layout/App.jsx", function () {
+        setTimeout(render);
+    });
 }
 
 render();
@@ -18,6 +20,6 @@ render();
 reportWebVitals();
 
 function render() {
-  const root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(<App/>);
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
 }
