@@ -13,3 +13,18 @@ div.ui.fixed.menu {
 .ui.main.container {
   margin-top: 90px
 }
+
+.homepage {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(
+        135deg,
+        rgb(24, 42, 115),
+        rgb(33, 138, 174)
+    ) !important;
+}
+
+.homepage h1.ui.header {
+   font-size: 4em; 
+}

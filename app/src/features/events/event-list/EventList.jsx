@@ -1,7 +1,7 @@
 import React from "react";
 import EventListItem from "./EventListItem";
 
-export default function EventList({events, selectedEventHandler, deleteEventHandler}) {
+export default function EventList({events, deleteEventHandler, currentUser}) {
     return (
         <>
             {events.map(event => (
@@ -9,7 +9,7 @@ export default function EventList({events, selectedEventHandler, deleteEventHand
                     event={event}
                     key={event.id}
                     deleteEventHandler={deleteEventHandler}
-                    selectedEventHandler={selectedEventHandler}></EventListItem>
+                    currentUser={currentUser}></EventListItem>
             ))}
         </>
     );

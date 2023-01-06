@@ -1,8 +1,13 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import {Button, Icon, Item, List, Segment} from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 
-export default function EventListItem({event, selectedEventHandler, deleteEventHandler}) {
+export default function EventListItem({
+    event,
+    deleteEventHandler,
+    currentUser
+}) {
     return (
         <Segment.Group>
             <Segment>
@@ -42,31 +47,38 @@ export default function EventListItem({event, selectedEventHandler, deleteEventH
                 <span>{event.description}</span>
             </Segment>
             <Segment clearing>
+                {currentUser === event.hostedBy && (
+                    <Button
+                        icon
+                        negative
+                        floated="right"
+                        labelPosition="left"
+                        onClick={() => deleteEventHandler(event.id)}>
+                        <Icon name="trash"></Icon>
+                        Eliminar
+                    </Button>
+                )}
+                {currentUser === event.hostedBy && (
+                    <Button
+                        as={Link}
+                        to={`/events/${event.id}/manage`}
+                        icon
+                        secondary
+                        floated="right"
+                        labelPosition="left">
+                        <Icon name="edit"></Icon>
+                        Editar
+                    </Button>
+                )}
+
                 <Button
-                    icon
-                    negative
-                    floated="right"
-                    labelPosition="left"
-                    onClick={() => deleteEventHandler(event.id)}>
-                    <Icon name="trash"></Icon>
-                    Eliminar
-                </Button>
-                <Button
-                    icon
-                    secondary
-                    floated="right"
-                    labelPosition="left"
-                    onClick={() => selectedEventHandler(event, false)}>
-                    <Icon name="edit"></Icon>
-                    Editar
-                </Button>
-                <Button
+                    as={Link}
+                    to={`/events/${event.id}`}
                     icon
                     primary
                     floated="right"
-                    labelPosition="left"
-                    onClick={() => selectedEventHandler(event, true)}>
-                    <Icon name="right arrow"></Icon>
+                    labelPosition="left">
+                    <Icon name="arrow right"></Icon>
                     Ver
                 </Button>
             </Segment>

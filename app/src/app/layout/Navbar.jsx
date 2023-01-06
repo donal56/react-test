@@ -1,29 +1,54 @@
 import React from "react";
-import { Button, Container, Menu, MenuItem } from "semantic-ui-react";
+import {NavLink, useNavigate} from "react-router-dom";
+import {Button, Container, Menu, MenuItem} from "semantic-ui-react";
+import SignedInMenu from "./SignedInMenu";
+import SignedOutMenu from "./SignedOutMenu";
 
-export default function Navbar({setFormOpen}) {
+export default function Navbar({
+    currentUser,
+    isAuthenticated,
+    setAuthenticated,
+    setUser
+}) {
+    const navigate = useNavigate();
+
     return (
         <Menu inverted fixed="top">
             <Container>
-                <MenuItem header>
+                <MenuItem exact as={NavLink} to="/" header>
                     <img src="/assets/logo.png" alt="logo"></img>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    Eventalia
+                    &nbsp;&nbsp;&nbsp;&nbsp; Eventalia
                 </MenuItem>
-                <MenuItem name="Events">Eventos</MenuItem>
-                <MenuItem>
-                    <Button positive inverted content="Crear evento" onClick= {() => setFormOpen(true)}></Button>
+                <MenuItem exact as={NavLink} to="/events" name="Events">
+                    Eventos
                 </MenuItem>
-                <MenuItem position="right">
-                    <Button basic inverted content="Iniciar sesión"></Button>
-                    <Button
-                        basic
-                        inverted
-                        content="Crear cuenta"
-                        style={{ marginLeft: "10px" }}
-                    ></Button>
-                </MenuItem>
+                {isAuthenticated && (
+                    <MenuItem exact as={NavLink} to="/events/create">
+                        <Button
+                            positive
+                            inverted
+                            content="Crear evento"></Button>
+                    </MenuItem>
+                )}
+                {isAuthenticated ? (
+                    <SignedInMenu
+                        handleSignOut={handleSignOut}
+                        user={currentUser}></SignedInMenu>
+                ) : (
+                    <SignedOutMenu handleSignIn={handleSignIn}></SignedOutMenu>
+                )}
             </Container>
         </Menu>
     );
+
+    function handleSignIn() {
+        setAuthenticated(true);
+        setUser("Ecoturismo Olmaya");
+    }
+
+    function handleSignOut() {
+        setAuthenticated(false);
+        setUser(null);
+        navigate("/");
+    }
 }
