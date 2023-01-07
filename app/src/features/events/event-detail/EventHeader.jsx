@@ -20,7 +20,7 @@ export default function EventHeader({event}) {
         <Segment.Group>
             <Segment basic attached="top" style={{padding: "0"}}>
                 <Image
-                    src={`/assets/categoryImages/drinks.jpg`}
+                    src={`/assets/categoryImages/${event.category}.jpg`}
                     fluid
                     style={eventImageStyle}
                 />
@@ -31,12 +31,12 @@ export default function EventHeader({event}) {
                             <Item.Content>
                                 <Header
                                     size="huge"
-                                    content="Nombre del evento"
+                                    content={event.title}
                                     style={{color: "white"}}
                                 />
-                                <p>Fecha del evento</p>
+                                <p>{event.date}</p>
                                 <p>
-                                    Organizado por <strong>Pedro</strong>
+                                    Organizado por <strong>{event.hostedBy}</strong>
                                 </p>
                             </Item.Content>
                         </Item>

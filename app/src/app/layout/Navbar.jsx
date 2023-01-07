@@ -15,15 +15,18 @@ export default function Navbar({
     return (
         <Menu inverted fixed="top">
             <Container>
-                <MenuItem exact as={NavLink} to="/" header>
+                <MenuItem as={NavLink} to="/" header>
                     <img src="/assets/logo.png" alt="logo"></img>
                     &nbsp;&nbsp;&nbsp;&nbsp; Eventalia
                 </MenuItem>
-                <MenuItem exact as={NavLink} to="/events" name="Events">
+                <MenuItem as={NavLink} to="/events" name="Events">
                     Eventos
                 </MenuItem>
+                <MenuItem as={NavLink} to="/sandbox" name="Sandbox">
+                    Sandbox
+                </MenuItem>
                 {isAuthenticated && (
-                    <MenuItem exact as={NavLink} to="/events/create">
+                    <MenuItem as={NavLink} to="/events/create">
                         <Button
                             positive
                             inverted

@@ -1,9 +1,15 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, Form, Header, Segment} from "semantic-ui-react";
+import {useDispatch, useSelector} from "react-redux";
+import {createEvent, updateEvent} from "../eventActions";
 
-export default function EventForm({saveEventHandler, selectedEvent}) {
-    const defaultFormData = selectedEvent ?? {
+export default function EventForm() {
+    const {eventId} = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const defaultEvent = {
         title: "",
         category: "",
         description: "",
@@ -11,15 +17,22 @@ export default function EventForm({saveEventHandler, selectedEvent}) {
         venue: "",
         date: ""
     };
-    const [formData, setFormData] = useState(defaultFormData);
+
+    const event = useSelector(state =>
+        eventId
+            ? state.eventsStore.events.find(ev => ev.id === parseInt(eventId))
+            : defaultEvent
+    );
+
+    const [formData, setFormData] = useState(event);
 
     return (
         <Segment clearing>
             <Header
                 content={
-                    selectedEvent ? "Ver evento" : "Actualizar evento"
+                    eventId ? "Actualizar evento" : "Crear evento"
                 }></Header>
-            <Form onSubmit={handleFormSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <Form.Field>
                     <label>Nombre del evento</label>
                     <input
@@ -77,21 +90,21 @@ export default function EventForm({saveEventHandler, selectedEvent}) {
                 <Button
                     type="submit"
                     floated="right"
-                    content={
-                        selectedEvent ? "Actualizar evento" : "Crear evento"
-                    }
+                    content={eventId ? "Actualizar evento" : "Crear evento"}
                     color="green"></Button>
             </Form>
         </Segment>
     );
 
-    function handleFormSubmit() {
-        saveEventHandler(formData);
-        setFormData(defaultFormData);
+    function handleInputChange(e) {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
     }
 
-    function handleInputChange(e) {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
+    function handleSubmit() {
+        dispatch(event.id ? createEvent(event) : updateEvent(event));
+        navigate("/events");
     }
 }

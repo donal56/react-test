@@ -1,15 +1,18 @@
 import React from "react";
+import {useSelector} from "react-redux";
 import {Grid} from "semantic-ui-react";
 import EventList from "../event-list/EventList";
 import EventFilters from "./EventFilters";
 
-export default function EventDashboard({currentUser, events, setEvents}) {
+export default function EventDashboard({currentUser}) {
+
+    const {events} = useSelector(state => state.eventsStore);
+
     return (
         <Grid>
             <Grid.Column width={10}>
                 <EventList
                     events={events}
-                    deleteEventHandler={handleEventDelete}
                     currentUser={currentUser}></EventList>
             </Grid.Column>
             <Grid.Column width={6}>
@@ -17,8 +20,4 @@ export default function EventDashboard({currentUser, events, setEvents}) {
             </Grid.Column>
         </Grid>
     );
-
-    function handleEventDelete(eventId) {
-        setEvents(events.filter(x => x.id !== eventId));
-    }
 }

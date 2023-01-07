@@ -2,12 +2,15 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {Button, Icon, Item, List, Segment} from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
+import {useDispatch} from "react-redux";
+import { deleteEvent } from "../eventActions";
 
 export default function EventListItem({
     event,
-    deleteEventHandler,
     currentUser
 }) {
+    const dispatch = useDispatch();
+
     return (
         <Segment.Group>
             <Segment>
@@ -53,7 +56,7 @@ export default function EventListItem({
                         negative
                         floated="right"
                         labelPosition="left"
-                        onClick={() => deleteEventHandler(event.id)}>
+                        onClick={() => dispatch(deleteEvent(event.id))}>
                         <Icon name="trash"></Icon>
                         Eliminar
                     </Button>

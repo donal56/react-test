@@ -22,7 +22,7 @@ export default function EventChat() {
                             <Comment.Metadata>
                                 <div>Hoy a las 5:42PM</div>
                             </Comment.Metadata>
-                            <Comment.Text>HQue artistico!</Comment.Text>
+                            <Comment.Text>Que artistico!</Comment.Text>
                             <Comment.Actions>
                                 <Comment.Action>Responder</Comment.Action>
                             </Comment.Actions>

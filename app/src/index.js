@@ -2,10 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./app/layout/App.jsx";
 import reportWebVitals from "./reportWebVitals";
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter} from "react-router-dom";
+import {Provider} from "react-redux";
 
 import "./app/layout/styles.css";
 import "semantic-ui-css/semantic.min.css";
+import { configureStore } from "app/store/configureStore.js";
+
+const store = configureStore();
 
 if (module.hot) {
     module.hot.accept("./app/layout/App.jsx", function () {
@@ -23,8 +27,10 @@ reportWebVitals();
 function render() {
     const root = ReactDOM.createRoot(document.getElementById("root"));
     root.render(
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </Provider>
     );
 }
