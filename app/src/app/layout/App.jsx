@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Container} from "semantic-ui-react";
-import {Routes, Route, useNavigate} from "react-router-dom";
-import {sampleData} from "../../app/api/SampleData.js";
+import {Routes, Route} from "react-router-dom";
 import EventDashboard from "../../features/events/event-dashboard/EventDashboard";
 import Navbar from "./Navbar";
 import HomePage from "../../features/events/home/HomePage";
@@ -12,10 +11,6 @@ import Sandbox from "features/sandbox/Sandbox.jsx";
 
 export default function App() {
 
-    // Sesión
-    const [authenticated, setAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
-
     // TODO: Cuando se accede a la ruta raíz, no mostrar el navbar
     return (
         <>
@@ -23,18 +18,13 @@ export default function App() {
                 <Route path="/" element={<HomePage></HomePage>}></Route>
             </Routes>
             <Container className="main">
-                <Navbar
-                    currentUser={user}
-                    isAuthenticated={authenticated}
-                    setAuthenticated={setAuthenticated}
-                    setUser={setUser}></Navbar>
+                <Navbar></Navbar>
                 <Routes>
                     <Route path="/events">
                         <Route
                             index
                             element={
-                                <EventDashboard
-                                    currentUser={user}></EventDashboard>
+                                <EventDashboard></EventDashboard>
                             }
                         />
                         <Route path=":eventId">

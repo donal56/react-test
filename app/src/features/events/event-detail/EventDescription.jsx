@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Grid, Icon, Segment } from "semantic-ui-react";
 
 export default function EventDescription({event}) {
+
     return (
         <Segment.Group>
             <Segment attached="top">

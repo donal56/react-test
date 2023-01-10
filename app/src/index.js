@@ -7,7 +7,8 @@ import {Provider} from "react-redux";
 
 import "./app/layout/styles.css";
 import "semantic-ui-css/semantic.min.css";
-import { configureStore } from "app/store/configureStore.js";
+import {configureStore} from "app/store/configureStore.js";
+import ScrollToTop from "app/layout/ScrollToTop.jsx";
 
 const store = configureStore();
 
@@ -29,6 +30,7 @@ function render() {
     root.render(
         <Provider store={store}>
             <BrowserRouter>
+                <ScrollToTop></ScrollToTop>
                 <App />
             </BrowserRouter>
         </Provider>

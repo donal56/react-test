@@ -10,6 +10,7 @@ import EventSidebar from "./EventSidebar";
 export default function EventInformation() {
     const {eventId} = useParams();
     const event = useSelector(state =>
+        // @ts-ignore
         state.eventsStore.events.find(ev => ev.id === parseInt(eventId))
     );
 

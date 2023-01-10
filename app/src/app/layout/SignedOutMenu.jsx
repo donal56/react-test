@@ -1,14 +1,19 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import {Button, MenuItem} from "semantic-ui-react";
+import { loginEvent } from "./security/securityActions";
 
-export default function SignedOutMenu({handleSignIn}) {
+export default function SignedOutMenu() {
+
+    const dispatch = useDispatch();
+
     return (
         <MenuItem position="right">
             <Button
                 basic
                 inverted
                 content="Iniciar sesión"
-                onClick={handleSignIn}></Button>
+                onClick={handleLogIn}></Button>
             <Button
                 basic
                 inverted
@@ -16,4 +21,8 @@ export default function SignedOutMenu({handleSignIn}) {
                 style={{marginLeft: "10px"}}></Button>
         </MenuItem>
     );
+
+    function handleLogIn() {
+        dispatch(loginEvent("Ecoturismo Olmaya"));
+    }
 }

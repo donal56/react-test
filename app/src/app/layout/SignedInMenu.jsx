@@ -1,8 +1,17 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 import {Dropdown, Image, MenuItem} from "semantic-ui-react";
+import {logoutEvent} from "./security/securityActions";
 
-export default function SignedInMenu({handleSignOut, user}) {
+export default function SignedInMenu() {
+    
+    // @ts-ignore
+    const {user} = useSelector(state => state.securityReducer);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     return (
         <MenuItem position="right">
             <Image avatar spaced="right" src="/assets/user.png"></Image>
@@ -16,10 +25,15 @@ export default function SignedInMenu({handleSignOut, user}) {
                     <Dropdown.Item text="Mi perfil" icon="user"></Dropdown.Item>
                     <Dropdown.Item
                         text="Cerrar sesión"
-                        onClick= {handleSignOut}
+                        onClick={handleLogOut}
                         icon="power"></Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </MenuItem>
     );
+
+    function handleLogOut() {
+        dispatch(logoutEvent());
+        navigate("/");
+    }
 }

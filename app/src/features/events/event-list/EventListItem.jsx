@@ -1,15 +1,14 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import { useSelector } from "react-redux";
 import {Button, Icon, Item, List, Segment} from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 import {useDispatch} from "react-redux";
-import { deleteEvent } from "../eventActions";
+import {deleteEvent} from "../eventActions";
 
-export default function EventListItem({
-    event,
-    currentUser
-}) {
+export default function EventListItem({event}) {
     const dispatch = useDispatch();
+    const {user} = useSelector(state => state.securityReducer);
 
     return (
         <Segment.Group>
@@ -50,7 +49,7 @@ export default function EventListItem({
                 <span>{event.description}</span>
             </Segment>
             <Segment clearing>
-                {currentUser === event.hostedBy && (
+                {user === event.hostedBy && (
                     <Button
                         icon
                         negative
@@ -61,7 +60,7 @@ export default function EventListItem({
                         Eliminar
                     </Button>
                 )}
-                {currentUser === event.hostedBy && (
+                {user === event.hostedBy && (
                     <Button
                         as={Link}
                         to={`/events/${event.id}/manage`}

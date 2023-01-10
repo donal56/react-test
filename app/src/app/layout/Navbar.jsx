@@ -1,16 +1,13 @@
 import React from "react";
-import {NavLink, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {NavLink} from "react-router-dom";
 import {Button, Container, Menu, MenuItem} from "semantic-ui-react";
 import SignedInMenu from "./SignedInMenu";
 import SignedOutMenu from "./SignedOutMenu";
 
-export default function Navbar({
-    currentUser,
-    isAuthenticated,
-    setAuthenticated,
-    setUser
-}) {
-    const navigate = useNavigate();
+export default function Navbar() {
+    // @ts-ignore
+    const {user} = useSelector(state => state.securityReducer);
 
     return (
         <Menu inverted fixed="top">
@@ -25,7 +22,7 @@ export default function Navbar({
                 <MenuItem as={NavLink} to="/sandbox" name="Sandbox">
                     Sandbox
                 </MenuItem>
-                {isAuthenticated && (
+                {user !== null && (
                     <MenuItem as={NavLink} to="/events/create">
                         <Button
                             positive
@@ -33,25 +30,12 @@ export default function Navbar({
                             content="Crear evento"></Button>
                     </MenuItem>
                 )}
-                {isAuthenticated ? (
-                    <SignedInMenu
-                        handleSignOut={handleSignOut}
-                        user={currentUser}></SignedInMenu>
+                {user !== null ? (
+                    <SignedInMenu></SignedInMenu>
                 ) : (
-                    <SignedOutMenu handleSignIn={handleSignIn}></SignedOutMenu>
+                    <SignedOutMenu></SignedOutMenu>
                 )}
             </Container>
         </Menu>
     );
-
-    function handleSignIn() {
-        setAuthenticated(true);
-        setUser("Ecoturismo Olmaya");
-    }
-
-    function handleSignOut() {
-        setAuthenticated(false);
-        setUser(null);
-        navigate("/");
-    }
 }

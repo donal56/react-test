@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 import {Button, Header, Image, Item, Segment} from "semantic-ui-react";
 
 export default function EventHeader({event}) {
@@ -15,6 +16,9 @@ export default function EventHeader({event}) {
         height: "auto",
         color: "white"
     };
+
+    // @ts-ignore
+    const {user} = useSelector(state => state.securityReducer);
 
     return (
         <Segment.Group>
@@ -36,7 +40,8 @@ export default function EventHeader({event}) {
                                 />
                                 <p>{event.date}</p>
                                 <p>
-                                    Organizado por <strong>{event.hostedBy}</strong>
+                                    Organizado por{" "}
+                                    <strong>{event.hostedBy}</strong>
                                 </p>
                             </Item.Content>
                         </Item>
@@ -48,9 +53,15 @@ export default function EventHeader({event}) {
                 <Button>Deshacer</Button>
                 <Button color="teal">ASISTIRE</Button>
 
-                <Button as= {Link} to= {`/events/${event.id}/manage`} color="orange" floated="right">
-                    Administrar evento
-                </Button>
+                {user === event.hostedBy && (
+                    <Button
+                        as={Link}
+                        to={`/events/${event.id}/manage`}
+                        color="orange"
+                        floated="right">
+                        Administrar evento
+                    </Button>
+                )}
             </Segment>
         </Segment.Group>
     );
