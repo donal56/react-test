@@ -1,8 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Form, Header, Segment} from "semantic-ui-react";
+import {Button, Header, Segment, FormField, Label} from "semantic-ui-react";
 import {useDispatch, useSelector} from "react-redux";
 import {createEvent, updateEvent} from "../eventActions";
+import {Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from 'yup';
 
 export default function EventForm() {
     const {eventId} = useParams();
@@ -24,7 +26,9 @@ export default function EventForm() {
             : defaultEvent
     );
 
-    const [formData, setFormData] = useState(event);
+    const validationSchema = Yup.object({
+        title: Yup.string().required("Campo requerido")
+    });
 
     return (
         <Segment clearing>
@@ -32,76 +36,56 @@ export default function EventForm() {
                 content={
                     eventId ? "Actualizar evento" : "Crear evento"
                 }></Header>
-            <Form onSubmit={handleSubmit}>
-                <Form.Field>
-                    <label>Nombre del evento</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleInputChange}></input>
-                </Form.Field>
-                <Form.Field>
-                    <label>Categoría</label>
-                    <input
-                        type="text"
-                        name="category"
-                        value={formData.category}
-                        onChange={handleInputChange}></input>
-                </Form.Field>
-                <Form.Field>
-                    <label>Descripción</label>
-                    <input
-                        type="text"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleInputChange}></input>
-                </Form.Field>
-                <Form.Field>
-                    <label>Ciudad</label>
-                    <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleInputChange}></input>
-                </Form.Field>
-                <Form.Field>
-                    <label>Lugar</label>
-                    <input
-                        type="text"
-                        name="venue"
-                        value={formData.venue}
-                        onChange={handleInputChange}></input>
-                </Form.Field>
-                <Form.Field>
-                    <label>Fecha</label>
-                    <input
-                        type="date"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleInputChange}></input>
-                </Form.Field>
-                <Button
-                    as={Link}
-                    to="/events"
-                    type="button"
-                    floated="right"
-                    content="Cerrar"></Button>
-                <Button
-                    type="submit"
-                    floated="right"
-                    content={eventId ? "Actualizar evento" : "Crear evento"}
-                    color="green"></Button>
-            </Form>
+            <Formik
+                initialValues={defaultEvent}
+                validationSchema={validationSchema}
+                onSubmit={values => console.log(values)}>
+                <Form className="ui form" onSubmit={handleSubmit}>
+                    <FormField>
+                        <label>Nombre del evento</label>
+                        <Field name="title"></Field>
+                        <ErrorMessage name="title" render= {error => (<Label basic color= "red" style= {{marginTop: 10}} content= {error}></Label>)}></ErrorMessage>
+                    </FormField>
+                    <FormField>
+                        <label>Categoría</label>
+                        <Field name="category"></Field>
+                        <ErrorMessage name="category" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
+                    </FormField>
+                    <FormField>
+                        <label>Descripción</label>
+                        <Field name="description"></Field>
+                        <ErrorMessage name="description" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
+                    </FormField>
+                    <FormField>
+                        <label>Ciudad</label>
+                        <Field name="city"></Field>
+                        <ErrorMessage name="city" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
+                    </FormField>
+                    <FormField>
+                        <label>Lugar</label>
+                        <Field name="venue"></Field>
+                        <ErrorMessage name="venue" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
+                    </FormField>
+                    <FormField>
+                        <label>Fecha</label>
+                        <Field name="date" type="date"></Field>
+                        <ErrorMessage name="date" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
+                    </FormField>
+                    <Button
+                        as={Link}
+                        to="/events"
+                        type="button"
+                        floated="right"
+                        content="Cerrar"></Button>
+                    <Button
+                        type="submit"
+                        floated="right"
+                        content={eventId ? "Actualizar evento" : "Crear evento"}
+                        color="green"></Button>
+                </Form>
+            </Formik>
         </Segment>
     );
-
-    function handleInputChange(e) {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    }
 
     function handleSubmit() {
         dispatch(event.id ? createEvent(event) : updateEvent(event));

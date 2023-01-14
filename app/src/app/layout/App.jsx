@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {Container} from "semantic-ui-react";
 import {Routes, Route} from "react-router-dom";
 import EventDashboard from "../../features/events/event-dashboard/EventDashboard";
