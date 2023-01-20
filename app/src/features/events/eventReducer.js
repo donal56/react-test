@@ -7,6 +7,7 @@ const initialState = {
 };
 
 export default function eventReducer(state = initialState, {type, payload}) {
+    
     switch (type) {
         case CREATE_EVENT:
             const currentId = state.events
@@ -20,7 +21,7 @@ export default function eventReducer(state = initialState, {type, payload}) {
 
             return {
                 ...state,
-                events: [...state.events, payload]
+                events: [...state.events, payload.event]
             };
         case UPDATE_EVENT:
             return {

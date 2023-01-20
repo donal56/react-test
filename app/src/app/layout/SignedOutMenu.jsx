@@ -1,10 +1,9 @@
+import {openModal} from "app/common/modals/modalReducer";
 import React from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import {Button, MenuItem} from "semantic-ui-react";
-import { loginEvent } from "./security/securityActions";
 
 export default function SignedOutMenu() {
-
     const dispatch = useDispatch();
 
     return (
@@ -13,7 +12,9 @@ export default function SignedOutMenu() {
                 basic
                 inverted
                 content="Iniciar sesión"
-                onClick={handleLogIn}></Button>
+                onClick={() =>
+                    dispatch(openModal({modalType: "LoginModal"}))
+                }></Button>
             <Button
                 basic
                 inverted
@@ -21,8 +22,4 @@ export default function SignedOutMenu() {
                 style={{marginLeft: "10px"}}></Button>
         </MenuItem>
     );
-
-    function handleLogIn() {
-        dispatch(loginEvent("Ecoturismo Olmaya"));
-    }
 }

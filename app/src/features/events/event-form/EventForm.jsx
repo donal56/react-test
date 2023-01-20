@@ -1,10 +1,15 @@
 import React from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Header, Segment, FormField, Label} from "semantic-ui-react";
+import {Button, Header, Segment} from "semantic-ui-react";
 import {useDispatch, useSelector} from "react-redux";
 import {createEvent, updateEvent} from "../eventActions";
-import {Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from 'yup';
+import {Formik, Form} from "formik";
+import * as Yup from "yup";
+import CustomTextInput from "app/common/form/CustomTextInput";
+import CustomTextArea from "app/common/form/CustomTextArea";
+import CustomDropdown from "app/common/form/CustomDropdown";
+import {categoryOptions} from "app/api/CategoryOptions";
+import CustomDatePicker from "app/common/form/CustomDatePicker";
 
 export default function EventForm() {
     const {eventId} = useParams();
@@ -27,7 +32,12 @@ export default function EventForm() {
     );
 
     const validationSchema = Yup.object({
-        title: Yup.string().required("Campo requerido")
+        title: Yup.string().required("Campo requerido"),
+        category: Yup.string().required("Campo requerido"),
+        description: Yup.string().required("Campo requerido"),
+        city: Yup.string().required("Campo requerido"),
+        venue: Yup.string().required("Campo requerido"),
+        date: Yup.date().required("Campo requerido")
     });
 
     return (
@@ -37,58 +47,59 @@ export default function EventForm() {
                     eventId ? "Actualizar evento" : "Crear evento"
                 }></Header>
             <Formik
-                initialValues={defaultEvent}
+                initialValues={event}
                 validationSchema={validationSchema}
-                onSubmit={values => console.log(values)}>
-                <Form className="ui form" onSubmit={handleSubmit}>
-                    <FormField>
-                        <label>Nombre del evento</label>
-                        <Field name="title"></Field>
-                        <ErrorMessage name="title" render= {error => (<Label basic color= "red" style= {{marginTop: 10}} content= {error}></Label>)}></ErrorMessage>
-                    </FormField>
-                    <FormField>
-                        <label>Categoría</label>
-                        <Field name="category"></Field>
-                        <ErrorMessage name="category" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
-                    </FormField>
-                    <FormField>
-                        <label>Descripción</label>
-                        <Field name="description"></Field>
-                        <ErrorMessage name="description" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
-                    </FormField>
-                    <FormField>
-                        <label>Ciudad</label>
-                        <Field name="city"></Field>
-                        <ErrorMessage name="city" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
-                    </FormField>
-                    <FormField>
-                        <label>Lugar</label>
-                        <Field name="venue"></Field>
-                        <ErrorMessage name="venue" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
-                    </FormField>
-                    <FormField>
-                        <label>Fecha</label>
-                        <Field name="date" type="date"></Field>
-                        <ErrorMessage name="date" render= {error => (<Label basic color= "red" content= {error}></Label>)}></ErrorMessage>
-                    </FormField>
-                    <Button
-                        as={Link}
-                        to="/events"
-                        type="button"
-                        floated="right"
-                        content="Cerrar"></Button>
-                    <Button
-                        type="submit"
-                        floated="right"
-                        content={eventId ? "Actualizar evento" : "Crear evento"}
-                        color="green"></Button>
-                </Form>
+                onSubmit={event => {
+                    dispatch(
+                        event.id ? updateEvent(event) : createEvent(event)
+                    );
+                    navigate("/events");
+                }}>
+                {({isSubmitting, dirty, isValid}) => (
+                    <Form className="ui form">
+                        <Header sub color="teal" content="Detalles"></Header>
+                        <CustomTextInput
+                            label="Nombre del evento"
+                            name="title"></CustomTextInput>
+                        <CustomDropdown
+                            label="Categoría"
+                            name="category"
+                            options={categoryOptions}></CustomDropdown>
+                        <CustomTextArea
+                            label="Descripción"
+                            name="description"
+                            rows={3}></CustomTextArea>
+                        <Header sub color="teal" content="Ubicación"></Header>
+                        <CustomTextInput
+                            label="Ciudad"
+                            name="city"></CustomTextInput>
+                        <CustomTextInput
+                            label="Lugar"
+                            name="venue"></CustomTextInput>
+                        <CustomDatePicker
+                            label="Fecha"
+                            name="date"
+                            showTimeSelect
+                            timeCaption="Hora"></CustomDatePicker>
+                        <Button
+                            as={Link}
+                            to="/events"
+                            type="button"
+                            floated="right"
+                            disabled={isSubmitting}
+                            content="Cerrar"></Button>
+                        <Button
+                            type="submit"
+                            floated="right"
+                            loading={isSubmitting}
+                            disabled={!isValid || !dirty || isSubmitting}
+                            content={
+                                eventId ? "Actualizar evento" : "Crear evento"
+                            }
+                            color="green"></Button>
+                    </Form>
+                )}
             </Formik>
         </Segment>
     );
-
-    function handleSubmit() {
-        dispatch(event.id ? createEvent(event) : updateEvent(event));
-        navigate("/events");
-    }
 }

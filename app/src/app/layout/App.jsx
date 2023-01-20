@@ -8,12 +8,14 @@ import EventForm from "../../features/events/event-form/EventForm";
 import NotFoundPage from "./NotFoundPage";
 import EventInformation from "../../features/events/event-detail/EventInformation";
 import Sandbox from "features/sandbox/Sandbox.jsx";
+import ModalManager from "app/common/modals/ModalManager";
 
 export default function App() {
 
     // TODO: Cuando se accede a la ruta raíz, no mostrar el navbar
     return (
         <>
+            <ModalManager></ModalManager>
             <Routes>
                 <Route path="/" element={<HomePage></HomePage>}></Route>
             </Routes>

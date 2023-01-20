@@ -1,6 +1,10 @@
 import {LOGIN_EVENT, LOGOUT_EVENT} from "./securityConstants";
 
-export default function securityReducer(state, {type, payload}) {
+const initialState = {
+    user: "Ecoturismo Olmaya"
+};
+
+export default function securityReducer(state = initialState, {type, payload}) {
     switch (type) {
         case LOGIN_EVENT:
             return {
@@ -11,8 +15,6 @@ export default function securityReducer(state, {type, payload}) {
                 user: null
             };
         default:
-            return {
-                user: null
-            };
+            return state;
     }
 }

@@ -1,3 +1,4 @@
+import { openModal } from "app/common/modals/modalReducer";
 import React from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {Button} from "semantic-ui-react";
@@ -18,6 +19,10 @@ export default function Sandbox() {
             <Button
                 onClick={() => dispatch(decrement(10))}
                 content="Decrementar"
+                negative></Button>
+            <Button
+                onClick={() => dispatch(openModal({modalType: 'TestModal', modalProps: {data}}))}
+                content="Abrir modal"
                 negative></Button>
         </>
     );

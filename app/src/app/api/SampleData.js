@@ -2,7 +2,7 @@ export const sampleData = [
     {
         id: 1,
         title: 'Viaje al museo La Venta',
-        date: '2023-03-21',
+        date: new Date('2023-03-21'),
         category: 'culture',
         description: 'Museo al aire libre con cabezas de piedra y altares antiguos, así como un zoológico con jaguares y más.',
         city: 'Villahermosa, Tabasco, México',
@@ -25,7 +25,7 @@ export const sampleData = [
     {
         id: 2,
         title: 'Ascenso al cerro de la pava',
-        date: '2023-03-18',
+        date: new Date('2023-03-18'),
         category: 'travel',
         description: 'Sube el cerro de la pava, una elevación de 990m localizada entre Tabasco y Chiapas. Descubre la vista desde el pico en su cima, un escenario que jamas olvidaras!',
         city: 'Huimanguillo, Tabasco, México',

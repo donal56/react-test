@@ -1,10 +1,10 @@
 import {LOGIN_EVENT, LOGOUT_EVENT} from "./securityConstants";
 
-export function loginEvent(user) {
+export function loginEvent(credentials) {
     return {
         type: LOGIN_EVENT,
         payload: {
-            user: user
+            user: credentials.username
         }
     };
 }
