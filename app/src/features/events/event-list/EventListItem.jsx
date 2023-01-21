@@ -35,7 +35,7 @@ export default function EventListItem({event}) {
                     {format(event.date, "dd/MM/yyyy HH:mm a")}
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Icon name="map marker alternate" color="green"></Icon>
-                    {event.venue}
+                    {event.venue.address}
                 </span>
             </Segment>
             <Segment secondary>

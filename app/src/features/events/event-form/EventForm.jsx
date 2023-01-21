@@ -10,23 +10,33 @@ import CustomTextArea from "app/common/form/CustomTextArea";
 import CustomDropdown from "app/common/form/CustomDropdown";
 import {categoryOptions} from "app/api/CategoryOptions";
 import CustomDatePicker from "app/common/form/CustomDatePicker";
+import PlaceSelector from "app/common/form/PlaceSelector";
 
 export default function EventForm() {
     const {eventId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const google = window.google;
+
     const defaultEvent = {
         title: "",
         category: "",
         description: "",
-        city: "",
-        venue: "",
+        city: {
+            address: "",
+            latLng: null
+        },
+        venue: {
+            address: "",
+            latLng: null
+        },
         date: ""
     };
 
     const event = useSelector(state =>
         eventId
+            // @ts-ignore
             ? state.eventsStore.events.find(ev => ev.id === parseInt(eventId))
             : defaultEvent
     );
@@ -35,8 +45,12 @@ export default function EventForm() {
         title: Yup.string().required("Campo requerido"),
         category: Yup.string().required("Campo requerido"),
         description: Yup.string().required("Campo requerido"),
-        city: Yup.string().required("Campo requerido"),
-        venue: Yup.string().required("Campo requerido"),
+        city: Yup.object().shape({
+            address: Yup.string().required("Campo requerido")
+        }),
+        venue: Yup.object().shape({
+            address: Yup.string().required("Campo requerido")
+        }),
         date: Yup.date().required("Campo requerido")
     });
 
@@ -55,7 +69,7 @@ export default function EventForm() {
                     );
                     navigate("/events");
                 }}>
-                {({isSubmitting, dirty, isValid}) => (
+                {({isSubmitting, dirty, isValid, values}) => (
                     <Form className="ui form">
                         <Header sub color="teal" content="Detalles"></Header>
                         <CustomTextInput
@@ -70,12 +84,20 @@ export default function EventForm() {
                             name="description"
                             rows={3}></CustomTextArea>
                         <Header sub color="teal" content="Ubicación"></Header>
-                        <CustomTextInput
+                        <PlaceSelector
                             label="Ciudad"
-                            name="city"></CustomTextInput>
-                        <CustomTextInput
+                            name="city"></PlaceSelector>
+                        <PlaceSelector
                             label="Lugar"
-                            name="venue"></CustomTextInput>
+                            name="venue"
+                            disabled={!values.city.latLng}
+                            options={{
+                                location: new google.maps.LatLng(
+                                    values.city.latLng
+                                ),
+                                radius: 1000,
+                                types: ["establishment"]
+                            }}></PlaceSelector>
                         <CustomDatePicker
                             label="Fecha"
                             name="date"

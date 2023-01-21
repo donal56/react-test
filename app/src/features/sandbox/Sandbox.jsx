@@ -1,12 +1,17 @@
-import { openModal } from "app/common/modals/modalReducer";
-import React from "react";
+import {openModal} from "app/common/modals/modalReducer";
+import React, {useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {Button} from "semantic-ui-react";
+import TestGoogleMapsPlaces from "./TestGoogleMapsPlaces";
+import TestMap from "./TestMap";
 import {increment, decrement} from "./testReducer";
 
 export default function Sandbox() {
+    // @ts-ignore
     const data = useSelector(state => state.testStore.data);
     const dispatch = useDispatch();
+    const [lat, setLat] = useState(null);
+    const [lng, setLng] = useState(null);
 
     return (
         <>
@@ -21,9 +26,19 @@ export default function Sandbox() {
                 content="Decrementar"
                 negative></Button>
             <Button
-                onClick={() => dispatch(openModal({modalType: 'TestModal', modalProps: {data}}))}
+                onClick={() =>
+                    dispatch(
+                        openModal({modalType: "TestModal", modalProps: {data}})
+                    )
+                }
                 content="Abrir modal"
                 negative></Button>
+            <div style={{marginTop: 35}}>
+                <TestGoogleMapsPlaces
+                    setLat={setLat}
+                    setLng={setLng}></TestGoogleMapsPlaces>
+                <TestMap lat={lat} lng={lng}></TestMap>
+            </div>
         </>
     );
 }
