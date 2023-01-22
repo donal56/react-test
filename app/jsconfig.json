@@ -3,6 +3,8 @@
         "baseUrl": "./src",
         "checkJs": true,
         "jsx": "react",
-        "types": ["google.maps", "googlemaps"]
+        "types": ["google.maps", "googlemaps"],
+        "target": "ES6",
+        "moduleResolution":"node"
     }
 }

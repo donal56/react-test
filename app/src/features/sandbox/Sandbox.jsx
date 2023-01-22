@@ -7,9 +7,14 @@ import TestMap from "./TestMap";
 import {increment, decrement} from "./testReducer";
 
 export default function Sandbox() {
+    const dispatch = useDispatch();
+
     // @ts-ignore
     const data = useSelector(state => state.testStore.data);
-    const dispatch = useDispatch();
+    // @ts-ignore
+    const {loading} = useSelector(state => state.asyncStore);
+
+    const [target, setTarget] = useState(null);
     const [lat, setLat] = useState(null);
     const [lng, setLng] = useState(null);
 
@@ -18,11 +23,21 @@ export default function Sandbox() {
             <h1>Testing</h1>
             <h3>El valor guardado es: {data}</h3>
             <Button
-                onClick={() => dispatch(increment(10))}
+                name="increment"
+                loading={loading && target === "increment"}
+                onClick={e => {
+                    dispatch(increment(10));
+                    setTarget(e.target.name);
+                }}
                 content="Incrementar"
                 positive></Button>
             <Button
-                onClick={() => dispatch(decrement(10))}
+                name="decrement"
+                loading={loading && target === "decrement"}
+                onClick={e => {
+                    dispatch(decrement(10));
+                    setTarget(e.target.name);
+                }}
                 content="Decrementar"
                 negative></Button>
             <Button

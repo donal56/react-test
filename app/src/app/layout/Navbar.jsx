@@ -7,7 +7,7 @@ import SignedOutMenu from "./SignedOutMenu";
 
 export default function Navbar() {
     // @ts-ignore
-    const {user} = useSelector(state => state.securityReducer);
+    const {user} = useSelector(state => state.securityStore);
 
     return (
         <Menu inverted fixed="top">

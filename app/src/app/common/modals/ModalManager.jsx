@@ -8,7 +8,7 @@ export default function ModalManager() {
         TestModal,
         LoginModal
     };
-    const currentModal = useSelector(state => state.modalReducer);
+    const currentModal = useSelector(state => state.modalsStore);
 
     let renderedModal = (<></>);
 

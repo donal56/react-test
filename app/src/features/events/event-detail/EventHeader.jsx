@@ -19,7 +19,7 @@ export default function EventHeader({event}) {
     };
 
     // @ts-ignore
-    const {user} = useSelector(state => state.securityReducer);
+    const {user} = useSelector(state => state.securityStore);
 
     return (
         <Segment.Group>

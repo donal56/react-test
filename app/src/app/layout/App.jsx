@@ -9,13 +9,25 @@ import NotFoundPage from "./NotFoundPage";
 import EventInformation from "../../features/events/event-detail/EventInformation";
 import Sandbox from "features/sandbox/Sandbox.jsx";
 import ModalManager from "app/common/modals/ModalManager";
+import { ToastContainer } from 'react-toastify';
 
 export default function App() {
-
     // TODO: Cuando se accede a la ruta raíz, no mostrar el navbar
     return (
         <>
             <ModalManager></ModalManager>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <Routes>
                 <Route path="/" element={<HomePage></HomePage>}></Route>
             </Routes>
@@ -25,9 +37,7 @@ export default function App() {
                     <Route path="/events">
                         <Route
                             index
-                            element={
-                                <EventDashboard></EventDashboard>
-                            }
+                            element={<EventDashboard></EventDashboard>}
                         />
                         <Route path=":eventId">
                             <Route
@@ -36,15 +46,11 @@ export default function App() {
                             />
                             <Route
                                 path="manage"
-                                element={
-                                    <EventForm></EventForm>
-                                }></Route>
+                                element={<EventForm></EventForm>}></Route>
                         </Route>
                         <Route
                             path="create"
-                            element={
-                                <EventForm></EventForm>
-                            }></Route>
+                            element={<EventForm></EventForm>}></Route>
                     </Route>
                     <Route
                         path="/sandbox"

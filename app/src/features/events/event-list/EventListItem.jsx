@@ -9,7 +9,7 @@ import {format} from "date-fns";
 
 export default function EventListItem({event}) {
     const dispatch = useDispatch();
-    const {user} = useSelector(state => state.securityReducer);
+    const {user} = useSelector(state => state.securityStore);
 
     return (
         <Segment.Group>

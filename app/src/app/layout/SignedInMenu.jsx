@@ -8,7 +8,7 @@ import {logoutEvent} from "./security/securityActions";
 export default function SignedInMenu() {
     
     // @ts-ignore
-    const {user} = useSelector(state => state.securityReducer);
+    const {user} = useSelector(state => state.securityStore);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
